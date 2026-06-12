@@ -4,7 +4,7 @@ Trabajo Obligatorio — Base de Datos I — UCU 2026
 
 ## Integrantes
 - Thomas Mc Cubbin
-- [Nombre compañero]
+- Juan Francisco Marquez
 
 ## Requisitos previos
 
