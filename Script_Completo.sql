@@ -135,3 +135,33 @@ INSERT INTO asistencia (id_inscripcion, fecha) VALUES
 
 ALTER TABLE actividad
 MODIFY dia ENUM('Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo') NOT NULL;
+
+-- Usuarios y permisos por rol
+-- ------------------------------------------------------------
+
+-- Crea los 3 usuarios de MySQL, uno por cada rol del sistema, con contraseña simple
+CREATE USER 'admin_user'@'localhost' IDENTIFIED BY 'admin123';
+CREATE USER 'docente_user'@'localhost' IDENTIFIED BY 'docente123';
+CREATE USER 'estudiante_user'@'localhost' IDENTIFIED BY 'estudiante123';
+
+-- ADMINISTRADOR: acceso total a todas las tablas de la base (igual que root)
+GRANT ALL PRIVILEGES ON gestion_deportiva.* TO 'admin_user'@'localhost';
+
+-- DOCENTE: puede consultar (SELECT) cualquier tabla, para ver datos y reportes
+GRANT SELECT ON gestion_deportiva.* TO 'docente_user'@'localhost';
+-- ademas puede insertar y modificar registros de asistencia (regla de negocio 5)
+GRANT INSERT, UPDATE ON gestion_deportiva.asistencia TO 'docente_user'@'localhost';
+
+-- ESTUDIANTE: puede ver el catalogo de disciplinas disponibles
+GRANT SELECT ON gestion_deportiva.disciplina TO 'estudiante_user'@'localhost';
+-- puede ver los espacios deportivos
+GRANT SELECT ON gestion_deportiva.espacio_deportivo TO 'estudiante_user'@'localhost';
+-- puede ver las actividades disponibles para inscribirse
+GRANT SELECT ON gestion_deportiva.actividad TO 'estudiante_user'@'localhost';
+-- puede ver, crear y cancelar sus propias inscripciones
+GRANT SELECT, INSERT, DELETE ON gestion_deportiva.inscripcion TO 'estudiante_user'@'localhost';
+-- puede ver sus registros de asistencia (no puede modificarlos)
+GRANT SELECT ON gestion_deportiva.asistencia TO 'estudiante_user'@'localhost';
+
+-- Aplica los cambios de permisos inmediatamente
+FLUSH PRIVILEGES;
