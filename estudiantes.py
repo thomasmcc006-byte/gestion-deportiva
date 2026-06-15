@@ -80,7 +80,7 @@ def menu_estudiantes():
         if opcion == "1":
             listar_estudiantes()
 
-       elif opcion == "2":
+        elif opcion == "2":
             documento = input("Documento: ")
             nombre   = input("Nombre: ")
             apellido = input("Apellido: ")
