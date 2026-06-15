@@ -1,7 +1,7 @@
 from database import get_connection
 from disciplinas import listar_disciplinas
 from espacios import listar_espacios
-
+from validaciones import validar_entero_positivo
 # ALTA: recibe todos los datos de la actividad y la inserta en la tabla.
 # Muestra primero las disciplinas y espacios disponibles para que el usuario elija por ID.
 def crear_actividad(nombre, id_disciplina, id_espacio, cupo_maximo, dia, horario):
@@ -119,8 +119,18 @@ def menu_actividades():
             id_esp  = input("ID del espacio: ")
             nombre  = input("Nombre de la actividad: ")
             cupo    = input("Cupo maximo: ")
+
+            ok, error = validar_entero_positivo(cupo, "El cupo maximo")
+            if not ok:
+                print(f"Error: {error}")
+                continue
+
             print(f"Dias disponibles: {', '.join(dias_validos)}")
             dia     = input("Dia: ")
+            if dia not in dias_validos:
+                print("Error: dia no valido. Debe ser uno de los dias listados.")
+                continue
+
             horario = input("Horario (HH:MM): ")
             crear_actividad(nombre, id_disc, id_esp, cupo, dia, horario)
 
