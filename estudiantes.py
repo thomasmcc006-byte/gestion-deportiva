@@ -1,4 +1,5 @@
 from database import get_connection
+from validaciones import validar_no_vacio, validar_email
 
 # ALTA: recibe los datos del estudiante y los inserta en la tabla estudiante
 def crear_estudiante(documento, nombre, apellido, email, carrera, facultad):
@@ -79,13 +80,25 @@ def menu_estudiantes():
         if opcion == "1":
             listar_estudiantes()
 
-        elif opcion == "2":
+       elif opcion == "2":
             documento = input("Documento: ")
             nombre   = input("Nombre: ")
             apellido = input("Apellido: ")
             email    = input("Email: ")
             carrera  = input("Carrera: ")
             facultad = input("Facultad: ")
+
+            ok, error = validar_no_vacio(documento, "Documento")
+            if ok: ok, error = validar_no_vacio(nombre, "Nombre")
+            if ok: ok, error = validar_no_vacio(apellido, "Apellido")
+            if ok: ok, error = validar_email(email)
+            if ok: ok, error = validar_no_vacio(carrera, "Carrera")
+            if ok: ok, error = validar_no_vacio(facultad, "Facultad")
+
+            if not ok:
+                print(f"Error: {error}")
+                continue
+
             crear_estudiante(documento, nombre, apellido, email, carrera, facultad)
 
         elif opcion == "3":
